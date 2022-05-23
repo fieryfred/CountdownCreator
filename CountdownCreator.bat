@@ -1,9 +1,18 @@
-@echo off
-for %%A in (%1%) do (set FILENAME=%%~nA)
+rem @echo off
+setlocal
 
-echo %FILENAME%
+rem
+rem Generate the output file name
+rem
+for %%A in (%1) do (set FILENAME=%%~nA)
 
+if not defined VIDEOSDIR (set VIDEOSDIR=%HOMEDRIVE%%HOMEPATH%\Videos)
 
+set TARGETPATH=%VIDEOSDIR%\%FILENAME%.mp4
+
+rem
+rem Standard font values for the call to FFMPEG
+rem 
 set DURATION=30
 set FONTCOLOUR=fontcolor=white
 set FONTBORDER=borderw=2:bordercolor=black
@@ -28,4 +37,4 @@ set LARGEENABLE=enable='between(t,%FADESTART%,%DURATION%-1)'
 set LARGEALPHA=alpha='if(gt(t,%FADEEND%),0.5,(t-(%FADESTART%))/10)'
 set LARGECOUNTDOWN=drawtext=%LARGETEXT%:%FONTFILE%:%LARGEFONTSIZE%:%FONTCOLOUR%:%LARGEXPOS%:%LARGEYPOS%:%FONTBORDER%:%LARGEENABLE%:%LARGEALPHA%
 
-%FFMPEG_PATH%\ffmpeg -loop 1 -r 5 -t %DURATION% -i %FILENAME% -y -vf "%SMALLCOUNTDOWN%,%LARGECOUNTDOWN%" out.mp4
+%FFMPEG_PATH%\ffmpeg -loop 1 -t %DURATION% -i %1 -y -vf "fps=5,format=yuv420p,%SMALLCOUNTDOWN%,%LARGECOUNTDOWN%" -c:v libx264 %TARGETPATH%

@@ -22,7 +22,7 @@ rem
 rem Parameters affecting the fade of the countdown text
 rem all of them are in seconds
 rem
-set COUNTDOWN_DURATION=900
+set COUNTDOWN_DURATION=90
 set LARGECOUNTCOUNTDOWN_DURATION=30
 set FADECOUNTDOWN_DURATION=5
 
@@ -30,7 +30,7 @@ set /a FADESTART=%COUNTDOWN_DURATION%-%LARGECOUNTCOUNTDOWN_DURATION%
 set /a FADEEND=%FADESTART%+5
 
 rem The text showing the time left displayed in the bottom right hand corner, inset by 10% of the output width
-set SMALLTEXT=text='Starting in %%{eif\:(%COUNTDOWN_DURATION%-t)/60\:d\:2}m %%{eif\:mod(%COUNTDOWN_DURATION%-t, 60)\:d\:2}s'
+set SMALLTEXT=text='Starting in %%{eif\:(%COUNTDOWN_DURATION%-t)/60\:d}m %%{eif\:mod(%COUNTDOWN_DURATION%-t, 60)\:d\:2}s'
 set SMALLFONTSIZE=fontsize=40
 set SMALLXPOS=x=(w-text_w)-(0.1*w)
 set SMALLYPOS=y=(h-text_h)-(0.1*h)

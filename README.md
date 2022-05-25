@@ -1,11 +1,12 @@
 # Countdown Creator
-This batch file will create a video, with a countdown, from an image file. 
+This batch file will create a video, with a countdown, from an image file. The default is for a 15 minute video, but the demo, below, has been created as a 1 minute 30 second video.
 
 https://user-images.githubusercontent.com/54833655/170360269-6b2fadb1-c989-4160-8762-2b5bacbd5f9e.mp4
 
 It was written is to provide a simple introduction video for live-streaming a Church service. And, because it will be used by non-technical users it has to be simple. Therefore, the batch file only takes one argument, which is the input image file, and so can be placed as a shortcut on the desktop.
 ## Requirements
 FFMPEG needs to be installed. It can be downloaded from [ffmpeg](https://ffmpeg.org/download.html#build-windows). The batch file uses the 'libx264' encoder so download the 'GPL' version.
+
 ## Environment Variables
 | Variable | Description|
 |----------|------------|

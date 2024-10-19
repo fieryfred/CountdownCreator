@@ -4,11 +4,11 @@ setlocal
 rem
 rem Generate the output file name
 rem
-for %%f in (%1) do (set FILENAME=%%~nf)
+for %%f in (%1) do (set INPUTPATH=%%~pf)
 
-if not defined VIDEODIR (set VIDEODIR="%HOMEDRIVE%%HOMEPATH%\Videos")
+if not defined VIDEODIR (set VIDEODIR="%INPUTPATH%")
 
-set TARGETPATH="%VIDEODIR%\%FILENAME%.mp4"
+set TARGETPATH="%INPUTPATH%\Countdown.mp4"
 
 
 rem
@@ -22,7 +22,7 @@ rem
 rem Parameters affecting the fade of the countdown text
 rem all of them are in seconds
 rem
-set COUNTDOWN_DURATION=90
+set COUNTDOWN_DURATION=120
 set LARGECOUNTCOUNTDOWN_DURATION=30
 set FADECOUNTDOWN_DURATION=5
 
@@ -54,12 +54,19 @@ set LARGEENABLE=enable='between(t,%FADESTART%,%COUNTDOWN_DURATION%-1)'
 set LARGEALPHA=alpha='if(gt(t,%FADEEND%),0.5,(t-(%FADESTART%))/10)'
 set LARGECOUNTDOWN=drawtext=%LARGETEXT%:%FONTFILE%:%LARGEFONTSIZE%:%FONTCOLOUR%:%LARGEXPOS%:%LARGEYPOS%:%FONTBORDER%:%LARGEENABLE%:%LARGEALPHA%
 
+rem Countdown Voice
+set /a VOICE_OFFSET=(%COUNTDOWN_DURATION%-11) * 1000
+
+if not defined COUNTDOWN_VOICE goto endvoice
+set VOICE_COMMAND=-i %COUNTDOWN_VOICE% -filter_complex "[1:a] adelay=%VOICE_OFFSET%|%VOICE_OFFSET%[voice]" -map 0:v -map "[voice]"
+:endvoice
+
 rem
 rem Set the path for FFMPEG
 rem
 
 if defined FFMPEGPATH (set PATH=%FFMPEGPATH%;"%PATH%")
 
-ffmpeg -loop 1 -t %COUNTDOWN_DURATION% -i %1 -y -vf "fps=5,format=yuv420p,%SMALLCOUNTDOWN%,%LARGECOUNTDOWN%" -c:v libx264 %TARGETPATH%
+ffmpeg -loop 1 -t %COUNTDOWN_DURATION% -i %1 %VOICE_COMMAND% -y -vf "fps=5,format=yuv420p,%SMALLCOUNTDOWN%,%LARGECOUNTDOWN%" -c:v libx264 %TARGETPATH%
 
 echo Created video: %TARGETPATH%

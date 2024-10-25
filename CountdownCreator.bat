@@ -6,10 +6,7 @@ rem Generate the output file name
 rem
 for %%f in (%1) do (set INPUTPATH=%%~pf)
 
-if not defined VIDEODIR (set VIDEODIR="%INPUTPATH%")
-
 set TARGETPATH="%INPUTPATH%\Countdown.mp4"
-
 
 rem
 rem Standard font values for the call to FFMPEG
@@ -23,10 +20,10 @@ rem Parameters affecting the fade of the countdown text
 rem all of them are in seconds
 rem
 set COUNTDOWN_DURATION=120
-set LARGECOUNTCOUNTDOWN_DURATION=30
+set LARGECOUNTDOWN_DURATION=30
 set FADECOUNTDOWN_DURATION=5
 
-set /a FADESTART=%COUNTDOWN_DURATION%-%LARGECOUNTCOUNTDOWN_DURATION%
+set /a FADESTART=%COUNTDOWN_DURATION%-%LARGECOUNTDOWN_DURATION%
 set /a FADEEND=%FADESTART%+5
 
 rem The text showing the time left displayed in the bottom right hand corner, inset by 10% of the output width

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Language="1033"
+    Manufacturer="Fiery Fred"
+    Name="Countdown Creator"
+    Version="1.0.0.0"
+    Scope="perMachine"
+    UpgradeCode="fcf30eff-e03d-4c33-9439-88ca8b1aa950">
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="CoundownCreator"
+      AllowAbsent="no"
+      Description="Installs Countdown Creator"
+      Title="Install Countdown Creator"
+      TypicalDefault="install">
+
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+
+
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory
+        Id="INSTALLFOLDER"
+        Name="!(bind.Property.Manufacturer)\!(bind.Property.ProductName)"
+      />
+    </StandardDirectory>
+
+  </Package>
+
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent">
+        <File KeyPath="yes" Source="CountdownCreator.bat" />
+      </Component>
+      <Component Id="ffmpeg" Guid="96ff2e39-8395-4c3b-aa18-b56c5b688ce9">
+        <File Source="ffmpeg.exe" />
+        <File Source="LICENSE" />
+        <File Source="README.md" />
+        <File Source="FFMPEG.txt" />
+      </Component>
+      <Component Id="ProductRegistry">
+        <RegistryKey
+          Root="HKCR"
+          Key="SystemFileAssociations\image\shell\CountdownCreator"
+        >
+          <RegistryValue Type="string" Value="Create 2 Minute Countdown Video" />
+          <RegistryKey Key="command">
+            <RegistryValue KeyPath="yes" Type="string"
+              Value="[INSTALLFOLDER]CountdownCreator.bat %1" />
+          </RegistryKey>
+        </RegistryKey>
+
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
